@@ -4,7 +4,7 @@
  */
 import { Suspense, useState, useEffect } from "react";
 import React from "react";
-const UserProfile = React.lazy(() => import("./UserProfile.js"));
+const UserProfile = React.lazy(() => import("./UserProfile.js")); // 1. User Profile should be loaded in lazy mode.
 const fetchUserProfile = (userId) => {
   return fetch("https://jsonplaceholder.typicode.com/todos");
 };
@@ -13,11 +13,12 @@ const SuspensefulUserProfile = ({ userId }) => {
   const [data, setData] = useState({});
   useEffect(() => {
     fetchUserProfile(userId).then((profile) =>
-      setData({ name: "sdfsdfsdf", email: "sdfsdf@wer.com" })
+      setData({ name: "Sample User", email: "sample@demo.com" })
     );
-  }, [userId]);
+  }, [userId]); // 2. No need to check setData
+  // 3. Specify fallback in <Suspense> component
   return (
-    <Suspense fallback={<p style={{ color: "red" }}>Loadking</p>}>
+    <Suspense fallback={<p style={{ color: "red" }}>Loadking</p>}>  
       <UserProfile data={data} />
     </Suspense>
   );
